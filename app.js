@@ -28,6 +28,7 @@ app.use((req, res, next) => {
 })
 
 require('./routes')(app, passport)
+app.use('/upload', express.static(__dirname + '/upload'))
 
 app.listen(3000, () => {
   db.sequelize.sync() // 跟資料庫同步
