@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const flash = require('connect-flash')
 const session = require('express-session')
 const db = require('./models') // 引入資料庫
+const passport = require('./config/passport')
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' })) // 新增引擎
 app.set('view engine', 'handlebars') // 使用引擎
@@ -12,6 +13,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // setup session and flash
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
 app.use(flash())
+// setup passport
+app.use(passport.initialize())
+app.use(passport.session())
 
 // 把 req.flash 放到 res.locals 裡面
 app.use((req, res, next) => {
@@ -20,7 +24,7 @@ app.use((req, res, next) => {
   next()
 })
 
-require('./routes')(app)
+require('./routes')(app, passport)
 
 app.listen(3000, () => {
   db.sequelize.sync() // 跟資料庫同步
