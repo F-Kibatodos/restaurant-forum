@@ -8,6 +8,10 @@ const db = require('./models') // 引入資料庫
 const passport = require('./config/passport')
 const methodOverride = require('method-override')
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 app.engine('handlebars', exphbs({ defaultLayout: 'main' })) // 新增引擎
 app.set('view engine', 'handlebars') // 使用引擎
 app.use(bodyParser.urlencoded({ extended: true }))
