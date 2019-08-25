@@ -82,4 +82,6 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     adminController.deleteRestaurant
   )
+  app.get('/admin/users', authenticatedAdmin, adminController.getUsers)
+  app.put('/admin/users/:id', authenticatedAdmin, adminController.putUser)
 }
