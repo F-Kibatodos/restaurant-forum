@@ -148,11 +148,6 @@ const adminController = {
           res.redirect('/admin/users')
         })
     })
-  },
-  getCategories: (req, res) => {
-    return Category.findAll.then(categories => {
-      return res.render('categories', { categories })
-    })
   }
 }
 
