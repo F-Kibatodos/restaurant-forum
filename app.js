@@ -12,7 +12,13 @@ if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config()
 }
 
-app.engine('handlebars', exphbs({ defaultLayout: 'main' })) // 新增引擎
+app.engine(
+  'handlebars',
+  exphbs({
+    defaultLayout: 'main',
+    helpers: require('./config/handlebars-helpers')
+  })
+) // 新增引擎
 app.set('view engine', 'handlebars') // 使用引擎
 app.use(bodyParser.urlencoded({ extended: true }))
 // setup session and flash
