@@ -110,4 +110,5 @@ module.exports = (app, passport) => {
     authenticatedAdmin,
     categoryController.deleteCategory
   )
+  app.get('/restaurants/:id', authenticated, restController.getRestaurant)
 }
