@@ -22,6 +22,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'RestaurantId', // 固定 RestaurantId 來找到那些使用者擁有它
       as: 'FavoritedUsers' // 別名
     })
+    Restaurant.belongsToMany(models.User, {
+      through: models.Like,
+      foreignKey: 'RestaurantId',
+      as: 'LikedUsers'
+    })
   }
   return Restaurant
 }
