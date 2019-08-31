@@ -5,8 +5,54 @@ const fs = require('fs')
 const Category = db.Category
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
+const bcrypt = require('bcrypt-nodejs')
 
 const adminController = {
+  signUpPage: (req, res) => {
+    res.render('signup')
+  },
+  signUp: (req, res) => {
+    // confirm password
+    if (req.body.passwordCheck !== req.body.password) {
+      req.flash('error_messages', '兩次密碼輸入不同！')
+      return res.redirect('/signup')
+    } else {
+      // confirm unique user
+      User.findOne({ where: { email: req.body.email } }).then(user => {
+        if (user) {
+          req.flash('error_messages', '信箱重複！')
+          return res.redirect('/signup')
+        } else {
+          User.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: bcrypt.hashSync(
+              req.body.password,
+              bcrypt.genSaltSync(10),
+              null
+            )
+          }).then(user => {
+            req.flash('success_messages', '成功註冊帳號！')
+            return res.redirect('/signin')
+          })
+        }
+      })
+    }
+  },
+  signInPage: (req, res) => {
+    return res.render('signin')
+  },
+
+  signIn: (req, res) => {
+    req.flash('success_messages', '成功登入！')
+    res.redirect('/restaurants')
+  },
+
+  logout: (req, res) => {
+    req.flash('success_messages', '登出成功！')
+    req.logout()
+    res.redirect('/signin')
+  },
   getRestaurants: (req, res) => {
     return Restaurant.findAll({ include: [Category] }).then(restaurants => {
       return res.render('admin/restaurants', { restaurants: restaurants })
@@ -79,7 +125,6 @@ const adminController = {
       req.flash('error_messages', "name didn't exist")
       return res.redirect('back')
     }
-
     const { file } = req
     if (file) {
       imgur.setClientID(IMGUR_CLIENT_ID)
