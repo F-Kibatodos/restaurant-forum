@@ -81,7 +81,13 @@ let restController = {
       include: [{ model: Comment }, { model: Category }]
     }).then(restaurant => {
       const totalComments = restaurant.Comments.length
-      return res.render('dashboard', { restaurant, totalComments })
+      restaurant.viewCounts = Number(restaurant.viewCounts) + 1
+      restaurant.save({ fields: ['viewCounts'] }).then(restaurant => {
+        return res.render('dashboard', {
+          restaurant,
+          totalComments
+        })
+      })
     })
   }
 }
