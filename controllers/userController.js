@@ -11,12 +11,35 @@ const Followship = db.Followship
 
 let userController = {
   getUser: (req, res) => {
-    const kk = Number(req.params.id)
+    const currentId = Number(req.params.id)
     return User.findByPk(req.params.id, {
-      include: [{ model: Comment, include: [Restaurant] }]
+      include: [
+        { model: Comment, include: [Restaurant] },
+        { model: Restaurant, as: 'FavoritedRestaurants' },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' }
+      ]
     }).then(user => {
       const totalComments = user.Comments.length
-      return res.render('profile', { logUser: user, kk: kk, totalComments })
+      const totalFavorites = user.FavoritedRestaurants.length
+      const totalFollowers = user.Followers.length
+      const totalFollowings = user.Followings.length
+      const isFollowing = req.user.Followings.map(d => d.id).includes(currentId)
+      let a = []
+      user.Comments.map(c => a.push(c.RestaurantId))
+      console.log(a)
+      let commentedRestaurants = Array.from(new Set(a))
+      console.log(commentedRestaurants)
+      return res.render('profile', {
+        logUser: user,
+        currentId: currentId,
+        totalComments,
+        totalFavorites,
+        totalFollowers,
+        totalFollowings,
+        isFollowing,
+        totalComments
+      })
     })
   },
   editUser: (req, res) => {
