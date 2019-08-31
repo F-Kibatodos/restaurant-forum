@@ -104,6 +104,29 @@ let restController = {
         totalComments
       })
     })
+  },
+  getTopRestaurant: (req, res) => {
+    // 撈出所有 Restaurant 與 favoritedUser 資料
+    return Restaurant.findAll({
+      include: [{ model: User, as: 'FavoritedUsers' }]
+    }).then(restaurants => {
+      // 整理 restaurants 資料
+      restaurants = restaurants.map(restaurant => ({
+        ...restaurant.dataValues,
+        // 計算加入最愛人數
+        FavoritedCount: restaurant.FavoritedUsers.length,
+        // 判斷目前登入使用者是否已追蹤該 User 物件
+        isFavorited: req.user.FavoritedRestaurants.map(r => r.id).includes(
+          restaurant.id
+        )
+      }))
+      // 依追蹤者人數排序清單
+      restaurants = restaurants.sort(
+        (a, b) => b.FavoritedCount - a.FavoritedCount
+      )
+      restaurants = restaurants.slice(0, 10)
+      return res.render('topRestaurant', { restaurants: restaurants })
+    })
   }
 }
 module.exports = restController
