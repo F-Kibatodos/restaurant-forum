@@ -66,10 +66,13 @@ let restController = {
         req.user.id
       )
       const isLiked = restaurant.LikedUsers.map(d => d.id).includes(req.user.id)
-      return res.render('restaurant', {
-        restaurant: restaurant,
-        isFavorited: isFavorited,
-        isLiked: isLiked
+      restaurant.viewCounts = restaurant.viewCounts + 1
+      restaurant.save({ fields: ['viewCounts'] }).then(restaurant => {
+        return res.render('restaurant', {
+          restaurant: restaurant,
+          isFavorited: isFavorited,
+          isLiked: isLiked
+        })
       })
     })
   },
@@ -96,12 +99,9 @@ let restController = {
       include: [{ model: Comment }, { model: Category }]
     }).then(restaurant => {
       const totalComments = restaurant.Comments.length
-      restaurant.viewCounts = Number(restaurant.viewCounts) + 1
-      restaurant.save({ fields: ['viewCounts'] }).then(restaurant => {
-        return res.render('dashboard', {
-          restaurant,
-          totalComments
-        })
+      return res.render('dashboard', {
+        restaurant,
+        totalComments
       })
     })
   }
