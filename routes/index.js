@@ -124,6 +124,7 @@ module.exports = (app, passport) => {
     authenticated,
     restController.getRestaurantDashboard
   )
+  app.get('/users/top', authenticated, userController.getTopUser)
   app.get('/users/:id', authenticated, userController.getUser)
   app.get('/users/:id/edit', authenticated, userController.editUser)
   app.put(
