@@ -37,7 +37,7 @@ app.use((req, res, next) => {
   next()
 })
 
-require('./routes')(app, passport)
+require('./routes')(app)
 app.use('/upload', express.static(__dirname + '/upload'))
 
 app.listen(process.env.PORT || 3000, () => {
