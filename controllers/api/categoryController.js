@@ -13,6 +13,11 @@ let categoryController = {
     return adminService.postCategory(req, res, data => {
       return res.json(data)
     })
+  },
+  putCategory: (req, res) => {
+    return adminService.putCategory(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 module.exports = categoryController
