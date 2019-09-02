@@ -18,6 +18,11 @@ let categoryController = {
     return adminService.putCategory(req, res, data => {
       return res.json(data)
     })
+  },
+  deleteCategory: (req, res) => {
+    return adminService.deleteCategory(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 module.exports = categoryController
