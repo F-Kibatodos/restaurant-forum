@@ -21,6 +21,7 @@ app.engine(
 ) // 新增引擎
 app.set('view engine', 'handlebars') // 使用引擎
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 // setup session and flash
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
 app.use(flash())
