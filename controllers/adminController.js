@@ -6,6 +6,7 @@ const Category = db.Category
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const bcrypt = require('bcrypt-nodejs')
+const adminService = require('../services/adminService')
 
 const adminController = {
   signUpPage: (req, res) => {
@@ -54,9 +55,9 @@ const adminController = {
     res.redirect('/signin')
   },
   getRestaurants: (req, res) => {
-    return Restaurant.findAll({ include: [Category] }).then(restaurants => {
-      return res.render('admin/restaurants', { restaurants: restaurants })
-    })
+    adminService.getRestaurants(req, res, data => {
+      return res.render('admin/restaurants', data)
+    }) // data 對應到 service 的 callback 的參數，定義後就執行，引數是{ restaurants }
   },
   createRestaurant: (req, res) => {
     Category.findAll().then(categories => {
