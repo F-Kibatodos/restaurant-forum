@@ -8,6 +8,11 @@ let categoryController = {
       if (req.params.id) return res.json(data.category)
       else return res.json(data)
     })
+  },
+  postCategory: (req, res) => {
+    return adminService.postCategory(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 module.exports = categoryController
