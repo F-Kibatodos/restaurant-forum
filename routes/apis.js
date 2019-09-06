@@ -4,6 +4,7 @@ const adminController = require('../controllers/api/adminController.js')
 const categoryController = require('../controllers/api/categoryController')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
+const userController = require('../controllers/api/userController')
 
 router.get('/admin/restaurants', adminController.getRestaurants)
 router.get('/admin/restaurants/:id', adminController.getRestaurant)
@@ -23,4 +24,6 @@ router.get('/admin/categories/:id', categoryController.getCategories)
 router.post('/admin/categories', categoryController.postCategory)
 router.put('/admin/categories/:id', categoryController.putCategory)
 router.delete('/admin/categories/:id', categoryController.deleteCategory)
+// jwt
+router.post('/signin', userController.signIn)
 module.exports = router
