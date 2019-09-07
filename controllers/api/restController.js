@@ -20,6 +20,11 @@ let restController = {
     return restService.getRestaurantDashboard(req, res, data => {
       return res.json(data)
     })
+  },
+  getTopRestaurant: (req, res) => {
+    return restService.getTopRestaurant(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 

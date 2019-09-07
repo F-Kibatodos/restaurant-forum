@@ -105,7 +105,7 @@ let restService = {
       })
     })
   },
-  getTopRestaurant: (req, res) => {
+  getTopRestaurant: (req, res, callback) => {
     // 撈出所有 Restaurant 與 favoritedUser 資料
     return Restaurant.findAll({
       include: [{ model: User, as: 'FavoritedUsers' }]
@@ -125,7 +125,7 @@ let restService = {
         (a, b) => b.FavoritedCount - a.FavoritedCount
       )
       restaurants = restaurants.slice(0, 10)
-      return res.render('topRestaurant', { restaurants: restaurants })
+      callback({ restaurants: restaurants })
     })
   }
 }

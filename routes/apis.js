@@ -44,6 +44,8 @@ router.get('/admin/categories/:id', categoryController.getCategories)
 router.post('/admin/categories', categoryController.postCategory)
 router.put('/admin/categories/:id', categoryController.putCategory)
 router.delete('/admin/categories/:id', categoryController.deleteCategory)
+// restaurant
+router.get('/restaurants/top', authenticated, restController.getTopRestaurant)
 router.get('/restaurants/feeds', authenticated, restController.getFeeds)
 router.get('/restaurants/:id', authenticated, restController.getRestaurant)
 router.get(
