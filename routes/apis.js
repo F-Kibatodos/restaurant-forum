@@ -54,6 +54,7 @@ router.delete(
   commentController.deleteComment
 )
 // user
+router.get('/users/top', authenticated, userController.getTopUser)
 router.get('/users/:id', authenticated, userController.getUser)
 router.put(
   '/users/:id',

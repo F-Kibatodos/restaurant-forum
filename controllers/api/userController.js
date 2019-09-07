@@ -100,6 +100,11 @@ let userController = {
     return userService.removeLike(req, res, data => {
       return res.json(data)
     })
+  },
+  getTopUser: (req, res) => {
+    return userService.getTopUser(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 
