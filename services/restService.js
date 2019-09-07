@@ -94,12 +94,12 @@ let restService = {
       })
     })
   },
-  getRestaurantDashboard: (req, res) => {
+  getRestaurantDashboard: (req, res, callback) => {
     return Restaurant.findByPk(req.params.id, {
       include: [{ model: Comment }, { model: Category }]
     }).then(restaurant => {
       const totalComments = restaurant.Comments.length
-      return res.render('dashboard', {
+      callback({
         restaurant,
         totalComments
       })

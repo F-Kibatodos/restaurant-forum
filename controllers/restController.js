@@ -23,14 +23,8 @@ let restController = {
     })
   },
   getRestaurantDashboard: (req, res) => {
-    return Restaurant.findByPk(req.params.id, {
-      include: [{ model: Comment }, { model: Category }]
-    }).then(restaurant => {
-      const totalComments = restaurant.Comments.length
-      return res.render('dashboard', {
-        restaurant,
-        totalComments
-      })
+    return restService.getRestaurantDashboard(req, res, data => {
+      return res.render('dashboard', data)
     })
   },
   getTopRestaurant: (req, res) => {
