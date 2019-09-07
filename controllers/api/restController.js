@@ -5,6 +5,11 @@ let restController = {
     return restService.getRestaurants(req, res, data => {
       return res.json(data)
     })
+  },
+  getRestaurant: (req, res) => {
+    return restService.getRestaurant(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 

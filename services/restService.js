@@ -53,7 +53,7 @@ let restService = {
       })
     })
   },
-  getRestaurant: (req, res) => {
+  getRestaurant: (req, res, callback) => {
     return Restaurant.findByPk(req.params.id, {
       include: [
         Category,
@@ -68,7 +68,7 @@ let restService = {
       const isLiked = restaurant.LikedUsers.map(d => d.id).includes(req.user.id)
       restaurant.viewCounts = restaurant.viewCounts + 1
       restaurant.save({ fields: ['viewCounts'] }).then(restaurant => {
-        return res.render('restaurant', {
+        callback({
           restaurant: restaurant,
           isFavorited: isFavorited,
           isLiked: isLiked
