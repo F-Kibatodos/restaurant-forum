@@ -7,6 +7,7 @@ const upload = multer({ dest: 'temp/' })
 const userController = require('../controllers/api/userController')
 const passport = require('../config/passport')
 const authenticated = passport.authenticate('jwt', { session: false })
+const commentController = require('../controllers/api/commentController')
 
 const authenticatedAdmin = (req, res, next) => {
   if (req.user) {
@@ -45,4 +46,11 @@ router.delete('/admin/categories/:id', categoryController.deleteCategory)
 // jwt
 router.post('/signin', userController.signIn)
 router.post('/signup', userController.signUp)
+router.post('/comments', authenticated, commentController.postComment)
+router.delete(
+  '/comments/:id',
+  authenticated,
+  authenticatedAdmin,
+  commentController.deleteComment
+)
 module.exports = router
