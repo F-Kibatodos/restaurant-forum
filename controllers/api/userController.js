@@ -80,6 +80,16 @@ let userController = {
     return userService.putUser(req, res, data => {
       return res.json(data)
     })
+  },
+  addFavorite: (req, res) => {
+    return userService.addFavorite(req, res, data => {
+      return res.json(data)
+    })
+  },
+  removeFavorite: (req, res) => {
+    return userService.removeFavorite(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 

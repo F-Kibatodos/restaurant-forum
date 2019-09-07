@@ -78,6 +78,32 @@ let userServerce = {
             })
           })
       })
+  },
+  addFavorite: (req, res, callback) => {
+    return Favorite.create({
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    }).then(restaurant => {
+      callback({
+        status: 'success',
+        message: `restaurant number ${req.params.restaurantId} was successfully added to favorite`
+      })
+    })
+  },
+  removeFavorite: (req, res, callback) => {
+    return Favorite.findOne({
+      where: {
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      }
+    }).then(favorite => {
+      favorite.destroy().then(restaurant => {
+        callback({
+          status: 'success',
+          message: `restaurant number ${req.params.restaurantId} was successfully removed from favorite`
+        })
+      })
+    })
   }
 }
 

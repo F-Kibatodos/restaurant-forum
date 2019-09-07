@@ -61,4 +61,14 @@ router.put(
   upload.single('image'),
   userController.putUser
 )
+router.post(
+  '/favorite/:restaurantId',
+  authenticated,
+  userController.addFavorite
+)
+router.delete(
+  '/favorite/:restaurantId',
+  authenticated,
+  userController.removeFavorite
+)
 module.exports = router
