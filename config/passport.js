@@ -4,6 +4,11 @@ const bcrypt = require('bcrypt-nodejs')
 const db = require('../models')
 const User = db.User
 const Restaurant = db.Restaurant
+const jwt = require('jsonwebtoken')
+const passportJWT = require('passport-jwt')
+const ExtractJwt = passportJWT.ExtractJwt
+const JwtStrategy = passportJWT.Strategy
+require('dotenv').config() // 或可以去 app.js 在引入 passport 前先設定好 dotenv
 
 // setup passport strategy
 passport.use(
@@ -34,6 +39,26 @@ passport.use(
     }
   )
 )
+let jwtOptions = {}
+// 設定 Header 如何攜帶 JWT
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
+// 製作簽章的字串
+jwtOptions.secretOrKey = process.env.JWT_SECRET
+
+let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
+  User.findByPk(jwt_payload.id, {
+    include: [
+      { model: db.Restaurant, as: 'FavoritedRestaurants' },
+      { model: db.Restaurant, as: 'LikedRestaurants' },
+      { model: User, as: 'Followers' },
+      { model: User, as: 'Followings' }
+    ]
+  }).then(user => {
+    if (!user) return next(null, false)
+    return next(null, user)
+  })
+})
+passport.use(strategy)
 
 // serialize and deserialize user
 passport.serializeUser((user, cb) => {
