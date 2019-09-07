@@ -44,4 +44,5 @@ router.put('/admin/categories/:id', categoryController.putCategory)
 router.delete('/admin/categories/:id', categoryController.deleteCategory)
 // jwt
 router.post('/signin', userController.signIn)
+router.post('/signup', userController.signUp)
 module.exports = router
