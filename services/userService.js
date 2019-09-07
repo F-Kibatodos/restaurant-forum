@@ -148,6 +148,26 @@ let userServerce = {
       users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
       callback({ users: users })
     })
+  },
+  addFollowing: (req, res, callback) => {
+    return Followship.create({
+      followerId: req.user.id,
+      followingId: req.params.userId
+    }).then(followship => {
+      callback({ status: 'success', message: '' })
+    })
+  },
+  removeFollowing: (req, res, callback) => {
+    return Followship.findOne({
+      where: {
+        followerId: req.user.id,
+        followingId: req.params.userId
+      }
+    }).then(followship => {
+      followship.destroy().then(followship => {
+        return callback({ status: 'success', message: '' })
+      })
+    })
   }
 }
 
