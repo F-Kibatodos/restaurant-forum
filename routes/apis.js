@@ -53,4 +53,6 @@ router.delete(
   authenticatedAdmin,
   commentController.deleteComment
 )
+// user
+router.get('/users/:id', authenticated, userController.getUser)
 module.exports = router

@@ -8,38 +8,12 @@ const Restaurant = db.Restaurant
 const Favorite = db.Favorite
 const Like = db.Like
 const Followship = db.Followship
+const userService = require('../services/userService')
 
 let userController = {
   getUser: (req, res) => {
-    const currentId = Number(req.params.id)
-    return User.findByPk(req.params.id, {
-      include: [
-        { model: Comment, include: [Restaurant] },
-        { model: Restaurant, as: 'FavoritedRestaurants' },
-        { model: User, as: 'Followers' },
-        { model: User, as: 'Followings' }
-      ]
-    }).then(user => {
-      const totalComments = user.Comments.length
-      const totalFavorites = user.FavoritedRestaurants.length
-      const totalFollowers = user.Followers.length
-      const totalFollowings = user.Followings.length
-      const isFollowing = req.user.Followings.map(d => d.id).includes(currentId)
-      let a = []
-      user.Comments.map(c => a.push(c.RestaurantId))
-      console.log(a)
-      let commentedRestaurants = Array.from(new Set(a))
-      console.log(commentedRestaurants)
-      return res.render('profile', {
-        logUser: user,
-        currentId: currentId,
-        totalComments,
-        totalFavorites,
-        totalFollowers,
-        totalFollowings,
-        isFollowing,
-        totalComments
-      })
+    return userService.getUser(req, res, data => {
+      res.render('profile', data)
     })
   },
   editUser: (req, res) => {
