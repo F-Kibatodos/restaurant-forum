@@ -44,6 +44,7 @@ router.get('/admin/categories/:id', categoryController.getCategories)
 router.post('/admin/categories', categoryController.postCategory)
 router.put('/admin/categories/:id', categoryController.putCategory)
 router.delete('/admin/categories/:id', categoryController.deleteCategory)
+router.get('/restaurants/feeds', authenticated, restController.getFeeds)
 router.get('/restaurants/:id', authenticated, restController.getRestaurant)
 // jwt
 router.post('/signin', userController.signIn)

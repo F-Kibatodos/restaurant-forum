@@ -76,7 +76,7 @@ let restService = {
       })
     })
   },
-  getFeeds: (req, res) => {
+  getFeeds: (req, res, callback) => {
     return Restaurant.findAll({
       limit: 10,
       order: [['createdAt', 'DESC']],
@@ -87,7 +87,7 @@ let restService = {
         order: [['createdAt', 'DESC']],
         include: [User, Restaurant]
       }).then(comments => {
-        return res.render('feeds', {
+        callback({
           restaurants: restaurants,
           comments: comments
         })

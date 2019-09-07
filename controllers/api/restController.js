@@ -10,6 +10,11 @@ let restController = {
     return restService.getRestaurant(req, res, data => {
       return res.json(data)
     })
+  },
+  getFeeds: (req, res) => {
+    return restService.getFeeds(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 
