@@ -42,24 +42,14 @@ let userController = {
     })
   },
   addLike: (req, res) => {
-    return Like.create({
-      UserId: req.user.id,
-      RestaurantId: req.params.restaurantId
-    }).then(restaurant => {
+    return userService.addLike(req, res, data => {
       return res.redirect('back')
     })
   },
 
   removeLike: (req, res) => {
-    return Like.findOne({
-      where: {
-        UserId: req.user.id,
-        RestaurantId: req.params.restaurantId
-      }
-    }).then(like => {
-      like.destroy().then(restaurant => {
-        return res.redirect('back')
-      })
+    return userService.removeLike(req, res, data => {
+      return res.redirect('back')
     })
   },
   getTopUser: (req, res) => {

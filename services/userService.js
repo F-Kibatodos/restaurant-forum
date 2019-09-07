@@ -104,6 +104,33 @@ let userServerce = {
         })
       })
     })
+  },
+  addLike: (req, res, callback) => {
+    return Like.create({
+      UserId: req.user.id,
+      RestaurantId: req.params.restaurantId
+    }).then(restaurant => {
+      callback({
+        status: 'success',
+        message: `restaurant number ${req.params.restaurantId} was successfully liked`
+      })
+    })
+  },
+
+  removeLike: (req, res, callback) => {
+    return Like.findOne({
+      where: {
+        UserId: req.user.id,
+        RestaurantId: req.params.restaurantId
+      }
+    }).then(like => {
+      like.destroy().then(restaurant => {
+        callback({
+          status: 'success',
+          message: `restaurant number ${req.params.restaurantId} was successfully unliked`
+        })
+      })
+    })
   }
 }
 

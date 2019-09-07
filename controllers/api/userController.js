@@ -90,6 +90,16 @@ let userController = {
     return userService.removeFavorite(req, res, data => {
       return res.json(data)
     })
+  },
+  addLike: (req, res) => {
+    return userService.addLike(req, res, data => {
+      return res.json(data)
+    })
+  },
+  removeLike: (req, res) => {
+    return userService.removeLike(req, res, data => {
+      return res.json(data)
+    })
   }
 }
 
