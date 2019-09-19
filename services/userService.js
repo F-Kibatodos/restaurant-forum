@@ -43,6 +43,10 @@ let userServerce = {
     })
   },
   putUser: (req, res, callback) => {
+    if (req.user.id !== Number(req.params.id)) {
+      req.flash('error_messages', '您無權限編輯他人檔案')
+      return res.redirect(`/users/${req.params.id}`)
+    }
     if (!req.body.name) {
       return callback({ status: 'error', message: "name didn't exist" })
     }

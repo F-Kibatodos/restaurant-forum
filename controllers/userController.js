@@ -18,6 +18,10 @@ let userController = {
   },
   editUser: (req, res) => {
     return User.findByPk(req.params.id).then(user => {
+      if (req.user.id !== Number(req.params.id)) {
+        req.flash('error_messages', '您無權編輯他人檔案')
+        return res.redirect(`/users/${req.params.id}`)
+      }
       return res.render('edit-user')
     })
   },
